@@ -7,15 +7,16 @@
 -----------------------------------------
 --SELECT * 
 
---INTO SQLCRIS_User.dbo.AfernandesCoreCohort15092017
+--INTO SQLCRIS_User.dbo.CoreTable15092017
 
 --from
 --				(
 --							SELECT 
 --										--Distinct 
 --										(Referral.BrcId),
---										Accepted_Date as Referral_start_date,
+--										Accepted_Date as Referral_accepted_date,
 --										Discharge_Date as Referral_end_date,
+--										Spell,
 --										Event.Start_Date,
 --										Event_Type_Of_Contact_ID
 									
@@ -29,193 +30,37 @@
 --										Event.brcid = Referral.brcid
 
 --							WHERE 
---										(Accepted_Date BETWEEN '01-JAN-2008' and '31-DEC-2016')
+--										(
+--										Accepted_Date BETWEEN '01-JAN-2008' and '31-DEC-2016'
 --										AND
---										(Event.Event_Type_Of_Contact_ID LIKE '%face%')
---										AND 
---										Event.Start_Date < (DATEADD(mm, 6, Accepted_Date)) 
---										AND
---										Event.Start_Date > (Accepted_Date) 
---							) CoreCohort
+--											(
+--											(Event.Event_Type_Of_Contact_ID LIKE '%face%')
+--											AND 
+--											Event.Start_Date < (DATEADD(mm, 6, Accepted_Date)) 
+--											AND
+--											Event.Start_Date > (Accepted_Date)
+--											)
+--										) 
+--				) CoreCohort
 
 ---------
--- CHECKS
+-- CHECKS - no patient row in this table should have had a f2f event note type within 6 months of patient referral date. 
 ---------
 --SELECT * 
 
 --FROM SQLCRIS_User.dbo.AfernandesCoreCohort15092017
 
---WHERE DATEDIFF(DD, Referral_start_date, Start_date) > 183 --(definition of 6 months)
+--WHERE DATEDIFF(DD, Referral_start_date, Start_date) > 183 --(183 = definition of 6 months)
 
--- query returns 0 patients so meets the criteria
+-- query returns 0 patients, so meets the criteria
 
 ------------------------------------------
--- MAKE A TABLE OF CORE TABLE (Table name: CoreTable, N (1850772 row(s) affected))
------------------------------------------
+-- MAKE A TABLE OF CORE TABLE (Table name: SQLCRIS_User.dbo.CoreTable21092017, N = (xxxxx row(s) affected))
 
 
----------------------------------------------
-------2
----------------------------------------------
-----BASE COHORT
------- patients with referral between jan08 - dec16 and 
------- have f2f contact within 6 months of date of referral
------- patients with depressive diagnosis within 12 months of referral date
------- exclude F0*, F1* and F2* diagnoses occurring within 2 years of referral date
------- rest are comorbidities
----------------------------------------------
-SELECT * 
 
-INTO SQLCRIS_User.dbo.AfernandesBaseCohort18092017
-
-FROM
-
-(
-
-
-SELECT 
-							SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId,
-							Referral_start_date,
-							Referral_end_date,
-							SQLCrisImport.dbo.Diagnosis_combined.primary_diagnosis,
-							SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date
-
-FROM 
-
-							SQLCRIS_User.dbo.AfernandesCoreCohort15092017
-							
-INNER JOIN 	
-							SQLCrisImport.dbo.Diagnosis_combined 
-
-on 
-							diagnosis_combined.BrcId = SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId
-WHERE
-							(
-							 (primary_diagnosis like '%F32%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))
-							 or
-							 (primary_diagnosis like '%F3%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))		
-							 or 
-							 (primary_diagnosis like '%F34.1%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))	
-							 or
-							 (primary_diagnosis like '%F41.2%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))	
-							 or
-							 (primary_diagnosis like '%depressive%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))	
-							 or
-							 (primary_diagnosis like '%mixed anxiety and depression%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))	
-							 or
-							 (primary_diagnosis like '%dysthymi%'			
-							  AND 
-							 (
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
-							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
-							 ))							
-
-							 )
-							 AND 
-							(SQLCrisImport.dbo.Diagnosis_combined.BrcId NOT IN
-							
-								(
-								select 
-										brcid 
-								from	
-										SQLCrisImport.dbo.Diagnosis_combined
-								where	
-										(
-										primary_diagnosis LIKE '%F0%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%dementia%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%alzheim%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%delirium%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%organi%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%schizo%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%F2%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										) OR
-										(
-										primary_diagnosis LIKE '%F0%' 
-										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
-										)
-									)
-								)
-							)BaseCohort
-										
-------
---CHECKS
-------
- SELECT * 
-
- FROM SQLCRIS_User.dbo.AfernandesBaseCohort18092017
-
- WHERE DATEDIFF(DD, Referral_start_date, diagnosis_date) > 365.25
-------	
--- met criteria?? -- Yes! so proceed to next step
-------
--------------------------------------------
---MAKE A TABLE OF BASE COHORT 
--- done  - (Table name: BaseCohort, N = (1416110 row(s) affected) - done
--------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 
 
 
