@@ -30,3 +30,4 @@ FROM
 		)RankedTable
 WHERE
 		ranked_depdiag_by_referralid = '1'
+		
