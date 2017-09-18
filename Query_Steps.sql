@@ -17,8 +17,10 @@
 --										Accepted_Date as Referral_accepted_date,
 --										Discharge_Date as Referral_end_date,
 --										Spell,
+--										id as Referral_id,
 --										Event.Start_Date,
---										Event_Type_Of_Contact_ID
+--										Event_Type_Of_Contact_ID,
+--										Referral.cn_doc_id
 									
 --							FROM 
 --										SQLCRIS.dbo.Referral
