@@ -1,0 +1,25 @@
+-----------------------------------------
+-- 5
+-----------------------------------------
+-- ORDERING THE JOINED BASE COHORT AND MEDICATION TABLE
+-----------------------------------------
+SELECT * 
+
+INTO base cohort with all med ranked
+
+FROM
+
+(
+SELECT 						
+							*,
+							ROW_NUMBER  () 
+							OVER (PARTITION BY 			referral.cn_doc_id, 
+								 						generic_ad_name ORDER BY MedStartDate, 
+								 		 				medication.id desc, 
+								 		 				medication.id
+								 ) as ranked_medication_date
+
+FROM 
+							Sbase cohort with all med
+)RankedCohort
+--------------------------------------------
