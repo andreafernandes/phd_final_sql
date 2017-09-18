@@ -10,34 +10,44 @@
 --INTO SQLCRIS_User.dbo.AfernandesCoreCohort15092017
 
 --from
-				--(
-				--			SELECT 
-				--						--Distinct 
-				--						(Referral.BrcId),
-				--						Accepted_Date as Referral_start_date,
-				--						Discharge_Date as Referral_end_date,
-				--						Event.Start_Date,
-				--						Event_Type_Of_Contact_ID
+--				(
+--							SELECT 
+--										--Distinct 
+--										(Referral.BrcId),
+--										Accepted_Date as Referral_start_date,
+--										Discharge_Date as Referral_end_date,
+--										Event.Start_Date,
+--										Event_Type_Of_Contact_ID
 									
-				--			FROM 
-				--						SQLCRIS.dbo.Referral
+--							FROM 
+--										SQLCRIS.dbo.Referral
 
-				--			INNER JOIN 	
-				--						Event
+--							INNER JOIN 	
+--										Event
 
-				--			on 			
-				--						Event.brcid = Referral.brcid
+--							on 			
+--										Event.brcid = Referral.brcid
 
-				--			WHERE 
-				--						(Accepted_Date BETWEEN '01-JAN-2008' and '31-DEC-2016')
-				--						AND
-				--						(Event.Event_Type_Of_Contact_ID LIKE '%face%')
-				--						AND 
-				--						Event.Start_Date < (DATEADD(mm, 6, Accepted_Date)) 
-				--						AND
-				--						Event.Start_Date > (Accepted_Date) 
+--							WHERE 
+--										(Accepted_Date BETWEEN '01-JAN-2008' and '31-DEC-2016')
+--										AND
+--										(Event.Event_Type_Of_Contact_ID LIKE '%face%')
+--										AND 
+--										Event.Start_Date < (DATEADD(mm, 6, Accepted_Date)) 
+--										AND
+--										Event.Start_Date > (Accepted_Date) 
+--							) CoreCohort
 
-				--			) CoreCohort
+---------
+-- CHECKS
+---------
+--SELECT * 
+
+--FROM SQLCRIS_User.dbo.AfernandesCoreCohort15092017
+
+--WHERE DATEDIFF(DD, Referral_start_date, Start_date) > 183 --(definition of 6 months)
+
+-- query returns 0 patients so meets the criteria
 
 ------------------------------------------
 -- MAKE A TABLE OF CORE TABLE (Table name: CoreTable, N (1850772 row(s) affected))
@@ -54,108 +64,157 @@
 ------ exclude F0*, F1* and F2* diagnoses occurring within 2 years of referral date
 ------ rest are comorbidities
 ---------------------------------------------
---SELECT * 
+SELECT * 
 
---INTO SQLCRIS_User.dbo.AfernandesBaseCohort15092017
+INTO SQLCRIS_User.dbo.AfernandesBaseCohort18092017
 
---FROM
+FROM
 
---(
+(
 
 
---SELECT 
---							SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId,
---							Referral_start_date,
---							Referral_end_date,
---							SQLCrisImport.dbo.Diagnosis_combined.primary_diagnosis,
---							SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date
+SELECT 
+							SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId,
+							Referral_start_date,
+							Referral_end_date,
+							SQLCrisImport.dbo.Diagnosis_combined.primary_diagnosis,
+							SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date
 
---FROM 
+FROM 
 
---							SQLCRIS_User.dbo.AfernandesCoreCohort15092017
+							SQLCRIS_User.dbo.AfernandesCoreCohort15092017
 							
---INNER JOIN 	
---							SQLCrisImport.dbo.Diagnosis_combined 
+INNER JOIN 	
+							SQLCrisImport.dbo.Diagnosis_combined 
 
---on 
---							diagnosis_combined.BrcId = SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId
---WHERE
---							(primary_diagnosis like '%F32%'			
---							 or
---							 primary_diagnosis like '%F33%'			
---							 or 
---							 primary_diagnosis like '%F34.1%'		
---							 or
---							 primary_diagnosis like '%F41.2%'		
---							 or
---							 primary_diagnosis like '%depressive%'	
---							 or
---							 primary_diagnosis like '%mixed anxiety and depressi%' 
---							 or
---							 primary_diagnosis like '%dysthymi%')
---							 AND 
---							 (
---							 SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
---							 AND
---							 SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
---							 )
---							 AND 
---							(SQLCrisImport.dbo.Diagnosis_combined.BrcId not IN
+on 
+							diagnosis_combined.BrcId = SQLCRIS_User.dbo.AfernandesCoreCohort15092017.BrcId
+WHERE
+							(
+							 (primary_diagnosis like '%F32%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))
+							 or
+							 (primary_diagnosis like '%F3%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))		
+							 or 
+							 (primary_diagnosis like '%F34.1%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))	
+							 or
+							 (primary_diagnosis like '%F41.2%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))	
+							 or
+							 (primary_diagnosis like '%depressive%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))	
+							 or
+							 (primary_diagnosis like '%mixed anxiety and depression%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))	
+							 or
+							 (primary_diagnosis like '%dysthymi%'			
+							  AND 
+							 (
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  AND
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							 ))							
+
+							 )
+							 AND 
+							(SQLCrisImport.dbo.Diagnosis_combined.BrcId NOT IN
 							
---								(
---								select 
---										brcid 
---								from	
---										SQLCrisImport.dbo.Diagnosis_combined
---								where	
---										(
---										primary_diagnosis LIKE '%F0%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%dementia%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%alzheim%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%delirium%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%organi%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%schizo%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%F2%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										) OR
---										(
---										primary_diagnosis LIKE '%F0%' 
---										AND
---										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
---										)
---									)
---								)
---							)BaseCohort
+								(
+								select 
+										brcid 
+								from	
+										SQLCrisImport.dbo.Diagnosis_combined
+								where	
+										(
+										primary_diagnosis LIKE '%F0%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%dementia%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%alzheim%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%delirium%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%organi%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%schizo%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%F2%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										) OR
+										(
+										primary_diagnosis LIKE '%F0%' 
+										AND
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										)
+									)
+								)
+							)BaseCohort
 										
+------
+--CHECKS
+------
+ SELECT * 
 
-							  
+ FROM SQLCRIS_User.dbo.AfernandesBaseCohort18092017
+
+ WHERE DATEDIFF(DD, Referral_start_date, diagnosis_date) > 365.25
+------	
+-- met criteria?? -- Yes! so proceed to next step
+------
 -------------------------------------------
---MAKE A TABLE OF BASE COHORT (Table name: BaseCohort, N = 1183015)
+--MAKE A TABLE OF BASE COHORT 
+-- done  - (Table name: BaseCohort, N = (1416110 row(s) affected) - done
 -------------------------------------------
 
 
@@ -164,7 +223,7 @@
 ----3
 -------------------------------------------
 ---- CREATING ANTIDEPRESSANT MEDICATION TABLE 
----- (which will include a column with the generic antideprssant name)
+---- (which will include a column with the generic antidepressant name)
 -------------------------------------------
 --SELECT * 
 
@@ -426,6 +485,7 @@
 --																 )medication_ad
 -------------------------------------------
 ----make medication.antidepressant table (Table name: medication.antidepressant, N = (1332489 row(s) affected))
+-- proceed to next step
 -------------------------------------------
 
 
@@ -437,44 +497,57 @@
 ---- flag patients who received ADs 2 weeks after referral date
 -----------------------------------------
 
+SELECT * 
+
+INTO SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017
+
+FROM
+
+(
+SELECT 						
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017.brcid as BaseCohortBrcid,
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017.Referral_start_date,
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017.Referral_end_date,
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017.primary_diagnosis,
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017.diagnosis_date,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.drug,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.generic_ad_name,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date as MedStartDate,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.End_Date,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.brcid,
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.id
+
+FROM 
+							SQLCRIS_User.dbo.AfernandesBaseCohort18092017
+
+LEFT JOIN			
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 
+
+on
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.brcid = SQLCRIS_User.dbo.AfernandesBaseCohort18092017.brcid
+
+WHERE	
+							(
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date < (DATEADD(ww, 2, SQLCRIS_User.dbo.AfernandesBaseCohort18092017.Referral_start_date))
+							AND
+							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date > Referral_start_date
+							)
+							
+) BaseCohort_with_AD
+-------
+--CHECKS
+-------
+
 --SELECT * 
 
---INTO SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_15092017
+--FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017
 
---FROM
-
---(
---SELECT 						
---							SQLCRIS_User.dbo.AfernandesBaseCohort15092017.brcid as BaseCohortBrcid,
---							SQLCRIS_User.dbo.AfernandesBaseCohort15092017.Referral_start_date,
---							SQLCRIS_User.dbo.AfernandesBaseCohort15092017.Referral_end_date,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.drug,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.generic_ad_name,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date as MedStartDate,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.End_Date,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.brcid,
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.id
-
---FROM 
---							SQLCRIS_User.dbo.AfernandesBaseCohort15092017
-
---LEFT JOIN			
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 
-
---on
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.brcid = SQLCRIS_User.dbo.AfernandesBaseCohort15092017.brcid
-
---WHERE	
---							(
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date < (DATEADD(ww, 2, SQLCRIS_User.dbo.AfernandesBaseCohort15092017.Referral_start_date))
---							AND
---							SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017.start_date > Referral_start_date
---							)
-							
---) BaseCohort_with_AD
+--WHERE DATEDIFF(DD, Referral_start_date, MedStartDate) > 14
+-- Checks came up with 0 row, so meets criteria
+--------
 --------------------------------------------
 ---- This table should have multiple rows per patient of recurring antidepressants
----- Create table BaseCohort_with_AD, N = (4177848 row(s) affected)
+---- Create table BaseCohort_with_AD, N = (4565593 row(s) affected)
 -------------------------------------------
 
 
@@ -486,7 +559,7 @@
 -----------------------------------------
 SELECT * 
 
-INTO SQLCRIS_User.dbo.AfernandesRankedBaseCohortWithAD15092017
+INTO SQLCRIS_User.dbo.AfernandesRankedBaseCohortWithAD18092017
 
 FROM
 
@@ -495,12 +568,28 @@ SELECT
 							*,
 							ROW_NUMBER  () 
 							OVER (PARTITION BY 			brcid, 
-								 						generic_ad_name ORDER BY SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_15092017.MedStartDate, 
+								 						generic_ad_name ORDER BY SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017.MedStartDate, 
 								 		 				id desc, 
-								 		 				SQLCris_User.dbo.Afernandes_BaseCohort_WithAD_15092017.id
+								 		 				SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017.id
 								 ) as ranked_medication_date
 
 FROM 
-							SQLCris_User.dbo.Afernandes_BaseCohort_WithAD_15092017
+							SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017
 )RankedCohort
 --------------------------------------------
+
+
+
+
+-----------------------------------------
+-- 6
+-----------------------------------------
+-- GENERATING ONE COLUMN PER ANTIDEPRESSANT
+-----------------------------------------
+SELECT (CASE 
+			WHEN BaseCohort_with_AD.generic_ad_name like 	'%Sertraline%' 
+													 and 	ranked.medication.date = 1
+			THEN 1 else 0 end) sert_flag
+
+--------------------------------------------
+
