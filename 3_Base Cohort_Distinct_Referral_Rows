@@ -45,4 +45,4 @@ FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows
 -- These should the final cohort and the unique Referral_id
 
 
-TABLE TO USE FOR THE MAIN BASE COHORT.THIS IS THE TABLE WITH THE N: SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows 
+TABLE TO USE FOR THE MAIN BASE COHORT. THIS IS THE TABLE WITH THE N: SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows 
