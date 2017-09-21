@@ -49,6 +49,10 @@
 ---------
 -- CHECKS - no patient row in this table should have had a f2f event note type within 6 months of patient referral date. 
 ---------
+
+---------
+-- selecting distinct referral rows, each with latest dep diagnosis flag.
+---------
 --SELECT * 
 
 --INTO SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
@@ -79,13 +83,23 @@
 --) CoreTableDisctintRows
 
 
+
+
+----------
+-- CHECKS
+----------
+
+--SELECT COUNT(DISTINCT(Referral_id))
+
+--FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
+
 --WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 = definition of 6 months)
 
 -- query returns 0 patients, so meets the criteria
 
 --SELECT COUNT(DISTINCT(Referral_id))
 
---FROM  SQLCRIS_User.dbo.Afernandes_CoreTable21092017
+--FROM  SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
 -- (232108 row(s) affected)
 
@@ -100,7 +114,5 @@
 -- 232108 referrals; 142729 brcids
 
 -- FINAL TABLE TO USE: SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
-
-
 
 
