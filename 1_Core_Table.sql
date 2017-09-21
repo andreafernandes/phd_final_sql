@@ -7,20 +7,21 @@
 -----------------------------------------
 --SELECT * 
 
---INTO SQLCRIS_User.dbo.CoreTable15092017
+--INTO SQLCRIS_User.dbo.Afernandes_CoreTable21092017
 
 --from
 --				(
 --							SELECT 
 --										--Distinct 
---										(Referral.BrcId),
+--										(Referral.BrcId) as ReferralBrcid,
+--										Event.BrcId as EventBrcid,
 --										Accepted_Date as Referral_accepted_date,
 --										Discharge_Date as Referral_end_date,
---										Spell,
---										id as Referral_id,
---										Event.Start_Date,
+--										Referral.Spell_Number,
+--										Event.Start_Date as Event_start_date,
 --										Event_Type_Of_Contact_ID,
---										Referral.cn_doc_id
+--										Referral.cn_doc_id as Referral_id,
+--										Event.CN_Doc_ID as Event_id
 									
 --							FROM 
 --										SQLCRIS.dbo.Referral
@@ -50,15 +51,55 @@
 ---------
 --SELECT * 
 
---FROM SQLCRIS_User.dbo.AfernandesCoreCohort15092017
+--INTO SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
---WHERE DATEDIFF(DD, Referral_start_date, Start_date) > 183 --(183 = definition of 6 months)
+--FROM 
+
+--(
+
+--SELECT *
+
+--FROM
+
+--		(
+
+--		SELECT *,
+--				ROW_NUMBER  () 
+--											OVER (PARTITION BY 			Referral_id
+--										 								ORDER BY Event_id, 
+--										 		 						Event_id desc, 
+--										 		 						Event_id
+--						) as ranked_by_Event_id  
+
+--		FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017
+--		)RankedCoreTable
+
+--WHERE ranked_by_Event_id = 1
+
+--) CoreTableDisctintRows
+
+
+--WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 = definition of 6 months)
 
 -- query returns 0 patients, so meets the criteria
 
+--SELECT COUNT(DISTINCT(Referral_id))
+
+--FROM  SQLCRIS_User.dbo.Afernandes_CoreTable21092017
+
+-- (232108 row(s) affected)
+
+--SELECT COUNT(DISTINCT(ReferralBrcid))
+
+--FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
+
 ------------------------------------------
--- MAKE A TABLE OF CORE TABLE (Table name: SQLCRIS_User.dbo.CoreTable21092017, N = (xxxxx row(s) affected))
--------------------------------------------
+-- MAKE A TABLE OF CORE TABLE 
+--(Table name: SQLCRIS_User.dbo.CoreTable21092017, N = (232108 row(s) affected))
+
+-- 232108 referrals; 142729 brcids
+
+-- FINAL TABLE TO USE: SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
 
 
