@@ -1,10 +1,4 @@
----------------------------------------------
-------3
----------------------------------------------
-----Ranking Base Cohort 
--- Because there are patients wiht multiple diagnoses within the 12 month period, 
--- i need to select only one row. Otherwise the MULTIPLE dep diagnoses per referral will create multiple rows per diagnosis, per referral. We just want the latest diagnoses for -- each referral. 
----------------------------------------------
+
 SELECT * 
 
 INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
