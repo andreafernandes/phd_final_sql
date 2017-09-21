@@ -1,45 +1,29 @@
-----4
--------------------------------------------
-----JOINING MEDICATION TO BASE COHORT
----- flag patients who received ADs 2 weeks after referral date
------------------------------------------
+SELECT *
 
-SELECT * 
+INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
 
-INTO SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017
-
-FROM
-
-(
-SELECT 						
-							*
 FROM 
-							Basecohort with diag
-LEFT JOIN			
-							ad med all
-on
-							ad med all.brcid = Basecohort with diag.brcid
+					(
+					SELECT *
 
-WHERE	
-							(
-							ad med all.start_date < (DATEADD(ww, 2, ad med all.Referral_start_date))
-							AND
-							ad med all.start_date > Referral_start_date
-							)
-							
-) BaseCohort_with_AD
--------
---CHECKS
--------
+					FROM 
 
---SELECT * 
+					( 
+					SELECT *,
+							ROW_NUMBER  () 
+												OVER (PARTITION BY 			referral_id, 
+								 											generic_ad_name ORDER BY start_date, 
+								 		 									id desc, 
+								 		 									id
+													 ) as ranked_medication_date
 
---FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_18092017
+					FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_21092017
+					)Table1
 
---WHERE DATEDIFF(DD, Referral_start_date, MedStartDate) > 14
--- Checks came up with 0 row, so meets criteria
---------
---------------------------------------------
----- This table should have multiple rows per patient of recurring antidepressants
----- Create table BaseCohort_with_AD, N = ( row(s) affected)
--------------------------------------------
+					WHERE 
+							ranked_medication_date = 1
+
+					)TABLE1
+					
+					
+-- Table to use: SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
