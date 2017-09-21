@@ -5,29 +5,40 @@
 -- Because there are patients wiht multiple diagnoses within the 12 month period, 
 -- i need to select only one row. Otherwise the MULTIPLE dep diagnoses per referral will create multiple rows per diagnosis, per referral. We just want the latest diagnoses for -- each referral. 
 ---------------------------------------------
-SELECT 	
-		*
-FROM
-		(
+SELECT * 
 
-		SELECT 	
-				brcid,
-				primary_diagnosis,
-				diagnosis_date,
-				referral_accepted_date,
-				refrral_end_date,
-				spell,
-				event.type_of_contact,
-				event.start_date,
-				ROW_NUMBER  () 
-									OVER (PARTITION BY 			referral_cn_doc_id, 
-										 						primary_diagnosis ORDER BY diagnosis_date, 
-										 		 				SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017.id desc, 
-										 		 				SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017.id
-				) as ranked_depdiag_by_referralid 
-		FROM 
-				SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017
-		)RankedTable
-WHERE
-		ranked_depdiag_by_referralid = '1'
-		
+INTO SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows
+
+FROM
+
+(
+
+				SELECT 	
+						*
+				FROM
+						(
+						SELECT 	
+								*,
+								ROW_NUMBER  () 
+													OVER (PARTITION BY 			Referral_id
+										 										ORDER BY diagnosis_date, 
+										 		 								diagnosis_id desc, 
+										 		 								diagnosis_id
+								) as ranked_depdiag_by_referralid 
+						FROM 
+								SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+								
+								--ORDER BY ReferralBrcid
+						)RankedTable
+				WHERE
+						ranked_depdiag_by_referralid = 1
+				
+)CC_with_Depression
+
+----------
+-- CHECKS
+----------
+SELECT COUNT(DISTINCT(Referral_id)) --COUNT(DISTINCT(ReferralBrcid))
+
+FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows
+						
