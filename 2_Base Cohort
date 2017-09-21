@@ -187,22 +187,5 @@ where (primary_diagnosis like '%depress%' and diagnosis_date > (DATEADD(mm, 12, 
 ---- met criteria?? 0 patients 
 ---- Yes!
 
-
---------------------------------
--- all schizoaffective diagnoses should be after 2 years of referral date
-select *
-
-from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
-
-where (primary_diagnosis like '%schizo%' and diagnosis_date > (DATEADD(mm, 12, Referral_accepted_date)				  
-))
-------
 -------------------------------------------
---MAKE A TABLE OF BASE COHORT 
--- done  - 
-select *
-
-from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
-
-order by DiagnosisBrcid 
--- N = (76503 row(s) affected) 
+-- TABLE TO USE FOR BASE COHORT: SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
