@@ -1,29 +1,39 @@
+-----------
+-- This table has flags for patients who have ADs within two weeks of referral accepted date. 
+-----------
+
 SELECT *
 
 INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
 
 FROM 
-					(
-					SELECT *
 
-					FROM 
-
-					( 
-					SELECT *,
-							ROW_NUMBER  () 
+					(SELECT * 
+					
+					FROM
+									(SELECT		*
+												,ROW_NUMBER  () 
 												OVER (PARTITION BY 			referral_id, 
-								 											generic_ad_name ORDER BY start_date, 
-								 		 									id desc, 
-								 		 									id
+																			generic_ad_name ORDER BY start_date, 
+ 																			id desc, 
+ 																			id
 													 ) as ranked_medication_date
+									FROM 
 
-					FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_21092017
-					)Table1
+																	(
+																	SELECT *
+																	FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_21092017
 
+																	WHERE start_date <= (DATEADD(dd, 14, Referral_accepted_date))
+																	)tABLE1
+									)tABLE2
+											
 					WHERE 
-							ranked_medication_date = 1
+					ranked_medication_date = 1
+
 
 					)TABLE1
+					
 					
 					
 -- Table to use: SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
