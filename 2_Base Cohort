@@ -9,7 +9,7 @@
 ---------------------------------------------
 SELECT * 
 
-INTO SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017
+INTO SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
 
 FROM
 
@@ -17,64 +17,75 @@ FROM
 
 
 SELECT 						
-							*
+							ReferralBrcid,
+							EventBrcid,
+							Referral_accepted_date,
+							Referral_end_date,
+							Referral_id,
+							Event_id,
+							spell_number,
+							SQLCrisImport.dbo.Diagnosis_combined.brcid as DiagnosisBrcid,
+							primary_diagnosis,
+							diagnosis_date,
+							diagnosis_id,
+							SQLCrisImport.dbo.Diagnosis_combined.cn_doc_id as Diagnosis_cnid
 
 FROM
 
 							SQLCrisImport.dbo.Diagnosis_combined 
 INNER JOIN
-							SQLCRIS_User.dbo.CoreTable21092017
+							SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows as CoreTable
 ON
-							SQLCrisImport.dbo.Diagnosis_combined.BRCID = SQLCRIS_User.dbo.CoreTable21092017.BRCID
+							SQLCrisImport.dbo.Diagnosis_combined.BRCID = CoreTable.ReferralBrcid
 WHERE
 							(
 							  (primary_diagnosis like '%F32%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )
 							 OR
 							  (primary_diagnosis like '%F33%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )		
 							 OR 
 							  (primary_diagnosis like '%F34.1%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )
 							 OR
 							  (primary_diagnosis like '%F41.2%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )	
 							 OR
 							  (primary_diagnosis like '%depressive%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )	
 							 OR
 							  (primary_diagnosis like '%mixed anxiety and depression%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )	
 							 OR
 							  (primary_diagnosis like '%dysthymi%'			
 							  AND 
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_start_date))
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date < (DATEADD(mm, 12, Referral_accepted_date))
 							  AND
-							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_start_date
+							  SQLCrisImport.dbo.Diagnosis_combined.diagnosis_date > Referral_accepted_date
 							  )							
 							)
 							 AND 
@@ -90,49 +101,49 @@ WHERE
 										(
 										primary_diagnosis LIKE '%F0%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%dementia%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%alzheim%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%delirium%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%organi%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%schizo%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%F2%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										) 
 										OR
 										(
 										primary_diagnosis LIKE '%F0%' 
 										AND
-										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_start_date))
+										diagnosis_combined.diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date))
 										)
 										)
 								)
@@ -141,19 +152,57 @@ WHERE
 										
 ------
 --CHECKS 
--- 		- there should be no patients with schizophrenia diag date within 2 years of referral date
---		- there should be no patients with depression diag date after 12 months of referral date
---		- all schizoaffective diagnoses should be after 2 years of referral date
-------
+--------
  SELECT * 
 
- FROM SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017
+ FROM SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
 
- WHERE DATEDIFF(DD, Referral_start_date, diagnosis_date) > 365.25
-------	
--- met criteria?? 
--- Yes! so proceed to next step
+ WHERE DATEDIFF(DD, Referral_accepted_date, diagnosis_date) --< 0 
+															--> 365.25
+--------	
+---- met criteria?? 0 patients where the difference between Referral accepted date is more than a year
+---- Yes!
+--------------------------------
+-- there should be no patients with schizophrenia diag date within 2 years of referral date
+
+select *
+
+from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+
+where (primary_diagnosis like '%F0%' and diagnosis_date < (DATEADD(mm, 24, Referral_accepted_date)
+							  --'%schizo%'
+))
+---- met criteria?? 0 patients 
+---- Yes!
+
+--------------------------------
+-- there should be no patients with depression diag date after 12 months of referral date
+select *
+
+from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+
+where (primary_diagnosis like '%depress%' and diagnosis_date > (DATEADD(mm, 12, Referral_accepted_date)
+							  --'%schizo%'
+))
+---- met criteria?? 0 patients 
+---- Yes!
+
+
+--------------------------------
+-- all schizoaffective diagnoses should be after 2 years of referral date
+select *
+
+from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+
+where (primary_diagnosis like '%schizo%' and diagnosis_date > (DATEADD(mm, 12, Referral_accepted_date)				  
+))
 ------
 -------------------------------------------
 --MAKE A TABLE OF BASE COHORT 
--- done  - (Table name: SQLCRIS_User.dbo.AfernandesBaseCohortInnerJoinDepressionCohort21092017, N = ( row(s) affected) 
+-- done  - 
+select *
+
+from SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+
+order by DiagnosisBrcid 
+-- N = (76503 row(s) affected) 
