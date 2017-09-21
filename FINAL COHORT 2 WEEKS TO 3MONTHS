@@ -1,0 +1,433 @@
+SELECT *
+
+INTO SQLCRIS_User.dbo.Afernandes_fc_to3months
+
+FROM
+
+(
+
+SELECT		 ReferralBrcid,
+		  BaseCohort.Referral_id,
+		  Event_id,
+		  referral_accepted_date,
+		  referral_end_date,
+		  spell_number,
+		  primary_diagnosis,
+		  diagnosis_date,
+		  diagnosis_id,
+		 
+		 (CASE WHEN (LithiumFlagTable.generic_ad_name like 'LITHIUM'								and 	LithiumFlagTable.ranked_medication_date = 1) THEN LithiumFlagTable.start_date ELSE 0 end) Two_wk_Lithium,
+		 (CASE WHEN (MAOIFlagTable.generic_ad_name like 'MAOI_Phenelzine'							and 	MAOIFlagTable.ranked_medication_date = 1) THEN MAOIFlagTable.start_date ELSE 0 end) Two_wk_MAOI_Phenelzine,
+		 (CASE WHEN (MAOITranylFlagTable.generic_ad_name like 'MAOI_Tranylcypromine'				and 	MAOITranylFlagTable.ranked_medication_date = 1) THEN MAOITranylFlagTable.start_date ELSE 0 end) Two_wk_MAOI_Tranylcypromine,
+		 (CASE WHEN (RevMAOIFlagTable.generic_ad_name like 'REVERSEMAOI_Moclobemide'				and 	RevMAOIFlagTable.ranked_medication_date = 1) THEN RevMAOIFlagTable.start_date ELSE 0 end) Two_wk_MAOI_Moclobemide,
+		 (CASE WHEN (AmitFlagTable.generic_ad_name like 'TCA_AMITRIPTYLINE'							and 	AmitFlagTable.ranked_medication_date = 1) THEN AmitFlagTable.start_date ELSE 0 end) Two_wk_TCA_Amit,
+		 (CASE WHEN (ClomipFlagTable.generic_ad_name like 'TCA_Clomipramine'						and 	ClomipFlagTable.ranked_medication_date = 1) THEN ClomipFlagTable.start_date ELSE 0 end) Two_wk_TCA_Clomip,
+		 (CASE WHEN (TCA_Dosulepin.generic_ad_name like 'TCA_Dosulepin'								and 	TCA_Dosulepin.ranked_medication_date = 1) THEN TCA_Dosulepin.start_date ELSE 0 end) Two_wk_TCA_Dosul,
+		 (CASE WHEN (TCA_Doxepin.generic_ad_name like 'TCA_Doxepin'									and 	TCA_Doxepin.ranked_medication_date = 1) THEN TCA_Doxepin.start_date ELSE 0 end) Two_wk_TCA_Doxe,
+		 (CASE WHEN (TCA_Imipramine.generic_ad_name like 'TCA_Imipramine'							and 	TCA_Imipramine.ranked_medication_date = 1) THEN TCA_Imipramine.start_date ELSE 0 end) Two_wk_TCA_Imip,
+		 (CASE WHEN (TCA_Lofepramine.generic_ad_name like 'TCA_Lofepramine'							and 	TCA_Lofepramine.ranked_medication_date = 1) THEN TCA_Lofepramine.start_date ELSE 0 end) Two_wk_TCA_Lofe,
+		 (CASE WHEN (TCA_Nortriptylin.generic_ad_name like 'TCA_Nortriptylin'						and 	TCA_Nortriptylin.ranked_medication_date = 1) THEN TCA_Nortriptylin.start_date ELSE 0 end) Two_wk_SNRI_Nortrip,
+		 (CASE WHEN (TCArelated_Trazodone.generic_ad_name like 'TCArelated_Trazodone'				and 	TCArelated_Trazodone.ranked_medication_date = 1) THEN TCArelated_Trazodone.start_date ELSE 0 end) Two_wk_TCA_Trazo,
+		 (CASE WHEN (SNRI_Duloxetin.generic_ad_name like 'SNRI_Duloxetin'							and 	SNRI_Duloxetin.ranked_medication_date = 1) THEN SNRI_Duloxetin.start_date ELSE 0 end) Two_wk_SNRI_Dulox,
+		 (CASE WHEN (SNRI_Reboxetin.generic_ad_name like 'SNRI_Reboxetin'							and 	SNRI_Reboxetin.ranked_medication_date = 1) THEN SNRI_Reboxetin.start_date ELSE 0 end) Two_wk_SNRI_Rebox, 
+		 (CASE WHEN (SNRI_Venlafaxine.generic_ad_name like 'OTHERAD_Venlafaxine'					and 	SNRI_Venlafaxine.ranked_medication_date = 1) THEN SNRI_Venlafaxine.start_date ELSE 0 end) Two_wk_SNRI_Venla,
+		 (CASE WHEN (SSRI_Citalopram.generic_ad_name like 'SSRI_Citalopram'							and 	SSRI_Citalopram.ranked_medication_date = 1) THEN SSRI_Citalopram.start_date ELSE 0 end) Two_wk_SSRI_Citalo,
+		 (CASE WHEN (SSRI_Escitalopram.generic_ad_name like 'SSRI_Escitalopram'						and 	SSRI_Escitalopram.ranked_medication_date = 1) THEN SSRI_Escitalopram.start_date ELSE 0 end) Two_wk_SSRI_Escit,
+		 (CASE WHEN (SSRI_Fluoxetine.generic_ad_name like 'SSRI_Fluoxetine'							and 	SSRI_Fluoxetine.ranked_medication_date = 1) THEN SSRI_Fluoxetine.start_date ELSE 0 end) Two_wk_SSRI_Fluox,
+		 (CASE WHEN (SSRI_Fluvoxamine.generic_ad_name like 'SSRI_Fluvoxamine'						and 	SSRI_Fluvoxamine.ranked_medication_date = 1) THEN SSRI_Fluvoxamine.start_date ELSE 0 end) Two_wk_SSRI_Fluvox,
+		 (CASE WHEN (SSRI_Paroxetine.generic_ad_name like 'SSRI_Paroxetine'							and 	SSRI_Paroxetine.ranked_medication_date = 1) THEN SSRI_Paroxetine.start_date ELSE 0 end) Two_wk_SSRI_Parox,
+		 (CASE WHEN (SSRIs_Sertraline.generic_ad_name like 'SSRIs_Sertraline'						and 	SSRIs_Sertraline.ranked_medication_date = 1) THEN SSRIs_Sertraline.start_date ELSE 0 end) Two_wk_SSRI_Sert,
+		 (CASE WHEN (OTHERAD_Agomelatin.generic_ad_name like 'OTHERAD_Agomelatin'					and 	OTHERAD_Agomelatin.ranked_medication_date = 1) THEN OTHERAD_Agomelatin.start_date ELSE 0 end) Two_wk_OA_Ago,
+		 (CASE WHEN (OTHERAD_Bupropion.generic_ad_name like 'OTHERAD_Bupropion'						and 	OTHERAD_Bupropion.ranked_medication_date = 1) THEN OTHERAD_Bupropion.start_date ELSE 0 end) Two_wk_OA_Bup,
+		 (CASE WHEN (OTHERAD_Mirtazapin.generic_ad_name like 'OTHERAD_Mirtazapin'					and 	OTHERAD_Mirtazapin.ranked_medication_date = 1) THEN OTHERAD_Mirtazapin.start_date ELSE 0 end) Two_wk_OA_Mirt
+
+
+FROM
+		SQLCRIS_User.dbo.Afernandes_fc_2week as BaseCohort
+		
+
+LEFT JOIN
+											-- 1
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'LITHIUM'								and 	ranked_medication_date = 1)
+													    
+											) LithiumFlagTable
+
+											on BaseCohort.Referral_id = LithiumFlagTable.Referral_id
+											
+LEFT JOIN
+											-- 2
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'MAOI_Phenelzine'						and 	ranked_medication_date = 1)
+													    
+											) MAOIFlagTable
+
+											on BaseCohort.Referral_id = MAOIFlagTable.Referral_id
+
+LEFT JOIN
+											-- 3
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'MAOI_Tranylcypromine'						and 	ranked_medication_date = 1)
+													    
+											) MAOITranylFlagTable
+
+											on BaseCohort.Referral_id = MAOITranylFlagTable.Referral_id
+											
+LEFT JOIN
+											-- 4
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'REVERSEMAOI_Moclobemide'						and 	ranked_medication_date = 1)
+													    
+											) RevMAOIFlagTable
+
+											on BaseCohort.Referral_id = RevMAOIFlagTable.Referral_id
+											
+
+LEFT JOIN
+											-- 5
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_AMITRIPTYLINE'						and 	ranked_medication_date = 1)
+													    
+											) AmitFlagTable
+
+											on BaseCohort.Referral_id = AmitFlagTable.Referral_id
+
+
+
+LEFT JOIN
+											-- 6
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Clomipramine'						and 	ranked_medication_date = 1)
+													    
+											) ClomipFlagTable
+
+											on BaseCohort.Referral_id = ClomipFlagTable.Referral_id
+	
+
+
+LEFT JOIN
+											-- 7
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Dosulepin'						and 	ranked_medication_date = 1)
+													    
+											) TCA_Dosulepin
+
+											on BaseCohort.Referral_id = TCA_Dosulepin.Referral_id
+
+LEFT JOIN
+											-- 8
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Doxepin'						and 	ranked_medication_date = 1)
+													    
+											) TCA_Doxepin
+
+											on BaseCohort.Referral_id = TCA_Doxepin.Referral_id
+											
+LEFT JOIN
+											-- 9
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Imipramine'						and 	ranked_medication_date = 1)
+													    
+											) TCA_Imipramine
+
+											on BaseCohort.Referral_id = TCA_Imipramine.Referral_id
+
+LEFT JOIN
+											-- 10
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Lofepramine'						and 	ranked_medication_date = 1)
+													    
+											) TCA_Lofepramine
+
+											on BaseCohort.Referral_id = TCA_Lofepramine.Referral_id
+
+LEFT JOIN
+											-- 11
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCA_Nortriptylin'						and 	ranked_medication_date = 1)
+													    
+											) TCA_Nortriptylin
+
+											on BaseCohort.Referral_id = TCA_Nortriptylin.Referral_id
+
+LEFT JOIN
+											-- 12
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'TCArelated_Trazodone'						and 	ranked_medication_date = 1)
+													    
+											) TCArelated_Trazodone
+											on BaseCohort.Referral_id = TCArelated_Trazodone.Referral_id
+
+LEFT JOIN
+											-- 13
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SNRI_Duloxetin'						and 	ranked_medication_date = 1)
+													    
+											) SNRI_Duloxetin
+											on BaseCohort.Referral_id = SNRI_Duloxetin.Referral_id
+
+LEFT JOIN
+											-- 14
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SNRI_Reboxetin'						and 	ranked_medication_date = 1)
+													    
+											) SNRI_Reboxetin
+											on BaseCohort.Referral_id = SNRI_Reboxetin.Referral_id
+
+LEFT JOIN
+											-- 15
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'OTHERAD_Venlafaxine'						and 	ranked_medication_date = 1)
+													    
+											) SNRI_Venlafaxine
+											on BaseCohort.Referral_id = SNRI_Venlafaxine.Referral_id
+
+LEFT JOIN
+											-- 16
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRI_Citalopram'						and 	ranked_medication_date = 1)
+													    
+											) SSRI_Citalopram
+											on BaseCohort.Referral_id = SSRI_Citalopram.Referral_id
+
+--LEFT JOIN
+--											-- 17
+--											(
+--											SELECT				Referral_id,
+--																generic_ad_name,start_date,
+--																ranked_medication_date
+																
+--											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+--											WHERE				(generic_ad_name like 'SSRI_Citalopram'						and 	ranked_medication_date = 1)
+													    
+--											) SSRI_Citalopram
+--											on BaseCohort.Referral_id = SSRI_Citalopram.Referral_id
+											
+											
+LEFT JOIN
+											-- 18
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRI_Escitalopram'						and 	ranked_medication_date = 1)
+													    
+											) SSRI_Escitalopram
+											on BaseCohort.Referral_id = SSRI_Escitalopram.Referral_id
+
+
+
+LEFT JOIN
+											-- 19
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRI_Fluoxetine'						and 	ranked_medication_date = 1)
+													    
+											) SSRI_Fluoxetine
+											on BaseCohort.Referral_id = SSRI_Fluoxetine.Referral_id
+
+LEFT JOIN
+											-- 20
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRI_Fluvoxamine'						and 	ranked_medication_date = 1)
+													    
+											) SSRI_Fluvoxamine
+											on BaseCohort.Referral_id = SSRI_Fluvoxamine.Referral_id
+											
+LEFT JOIN
+											-- 21
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRI_Paroxetine'						and 	ranked_medication_date = 1)
+													    
+											) SSRI_Paroxetine
+											on BaseCohort.Referral_id = SSRI_Paroxetine.Referral_id
+											
+LEFT JOIN
+											-- 22
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'SSRIs_Sertraline'						and 	ranked_medication_date = 1)
+													    
+											) SSRIs_Sertraline
+											on BaseCohort.Referral_id = SSRIs_Sertraline.Referral_id
+											
+LEFT JOIN
+											-- 23
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'OTHERAD_Agomelatin'						and 	ranked_medication_date = 1)
+													    
+											) OTHERAD_Agomelatin
+											on BaseCohort.Referral_id = OTHERAD_Agomelatin.Referral_id
+											
+LEFT JOIN
+											-- 24
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'OTHERAD_Bupropion'						and 	ranked_medication_date = 1)
+													    
+											) OTHERAD_Bupropion
+											on BaseCohort.Referral_id = OTHERAD_Bupropion.Referral_id
+											
+											
+LEFT JOIN
+											-- 25
+											(
+											SELECT				Referral_id,
+																generic_ad_name,start_date,
+																ranked_medication_date
+																
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS as AllMeds
+
+											WHERE				(generic_ad_name like 'OTHERAD_Mirtazapin'						and 	ranked_medication_date = 1)
+													    
+											) OTHERAD_Mirtazapin
+											on BaseCohort.Referral_id = OTHERAD_Mirtazapin.Referral_id
+
+)Table1
+
+
+
+
+--------------SELECT				*
+--------------FROM				SQLCRIS_User.dbo.Afernandes_fc
+--------------WHERE				Referral_id = 48710986
+
+
+----------------------------------------------------
+
+----------------select COUNT(DISTINCT(Diagnosis_id))
+
+----------------from SQLCRIS_User.dbo.Afernandes_fc
