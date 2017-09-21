@@ -31,7 +31,7 @@ FROM
 								--ORDER BY ReferralBrcid
 						)RankedTable
 				WHERE
-						ranked_depdiag_by_referralid = 1
+						ranked_depdiag_by_referralid = 1 -- this should be ranked depdiag by diagid
 				
 )CC_with_Depression
 
@@ -41,4 +41,8 @@ FROM
 SELECT COUNT(DISTINCT(Referral_id)) --COUNT(DISTINCT(ReferralBrcid))
 
 FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows
-						
+
+-- These should the final cohort and the unique Referral_id
+
+
+TABLE TO USE FOR THE MAIN BASE COHORT. THIS IS THE TABLE WITH THE N: SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows 
