@@ -1,39 +1,53 @@
 -----------
 -- This table has flags for patients who have ADs within two weeks of referral accepted date. 
 -----------
+SELECT * 
 
-SELECT *
-
-INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
+INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
 
 FROM 
 
-					(SELECT * 
-					
-					FROM
-									(SELECT		*
-												,ROW_NUMBER  () 
-												OVER (PARTITION BY 			referral_id, 
-																			generic_ad_name ORDER BY start_date, 
- 																			id desc, 
- 																			id
-													 ) as ranked_medication_date
-									FROM 
-
-																	(
-																	SELECT *
-																	FROM SQLCRIS_User.dbo.Afernandes_BaseCohort_WithAD_21092017
-
-																	WHERE start_date <= (DATEADD(dd, 14, Referral_accepted_date))
-																	)tABLE1
-									)tABLE2
-											
-					WHERE 
-					ranked_medication_date = 1
+(
 
 
-					)TABLE1
+
+							SELECT * 
+
+							FROM 
+
+							(
+
+
+																SELECT *,
+																		ROW_NUMBER  () 
+																												OVER (PARTITION BY 			Referral_id, 
+																																			generic_ad_name ORDER BY start_date, 
+ 																																			id desc, 
+ 																																			id
+																													 ) as ranked_medication_date
+																FROM
+
+																(
+
+																						SELECT *
+
+																						FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows as bc
+
+																						LEFT JOIN SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 as adtable
+
+																						ON bc.ReferralBrcid = adtable.brcid
+
+																						WHERE	(
+																								adtable.start_date <= (DATEADD(ww, 2, Referral_accepted_date)) AND
+																								adtable.start_date >   Referral_accepted_date
+																								)
+																)Table1
+
+							)Table2
+
+							WHERE ranked_medication_date = 1
+)Table3
+
 					
 					
-					
--- Table to use: SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds
+-- Table to use:SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
