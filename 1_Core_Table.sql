@@ -51,7 +51,7 @@
 ---------
 
 ---------
--- selecting distinct referral rows, each with latest dep diagnosis flag.
+-- selecting distinct referral rows, each with latest f-2-f contact flag.
 ---------
 --SELECT * 
 
