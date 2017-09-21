@@ -4,7 +4,7 @@
 ---- CREATING ANTIDEPRESSANT MEDICATION TABLE 
 ---- (which will include a column with the generic antidepressant name)
 -------------------------------------------
---SELECT * 
+SELECT * 
 
 --INTO SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017
 
@@ -173,7 +173,7 @@
 --							SQLCrisImport.dbo.medication_combined
 
 --WHERE		
---							(drug like '%lithium%' 
+--																   (drug like '%lithium%' 
 --																 or drug like '%camcolit%'  
 --																 or drug like '%liskonum%' 
 --																 or drug like '%priadel%' 
@@ -263,11 +263,4 @@
 																 
 --																 )medication_ad
 -------------------------------------------
-----make medication.antidepressant table (Table name: medication.antidepressant, N = (1332489 row(s) affected))
--- proceed to next step
--------------------------------------------
-
-
-
-
-
+-- TABLE TO USE FOR A MEDICATION WITH ONLY ANTIDEPRESSANTS IN IT: SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017
