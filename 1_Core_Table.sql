@@ -5,7 +5,7 @@
 -- patients with referral between jan08 - dec16 and 
 -- have f2f contact within 6 months of date of referral
 -----------------------------------------
---SELECT * 
+SELECT * 
 
 --INTO SQLCRIS_User.dbo.Afernandes_CoreTable21092017
 
@@ -47,7 +47,21 @@
 --				) CoreCohort
 
 ---------
--- CHECKS - no patient row in this table should have had a f2f event note type within 6 months of patient referral date. 
+-- CHECKS 
+
+-- Criteria
+
+-- no patient row in this table should have had a f2f event note type within 6 months of patient referral date. 
+
+-- Query for Criteria: 
+
+--SELECT COUNT(DISTINCT(Referral_id))
+
+--FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
+
+--WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 = definition of 6 months)
+
+-- query returns 0 patients, so meets the criteria
 ---------
 
 ---------
@@ -66,14 +80,12 @@
 --FROM
 
 --		(
-
 --		SELECT *,
---				ROW_NUMBER  () 
---											OVER (PARTITION BY 			Referral_id
---										 								ORDER BY Event_id, 
---										 		 						Event_id desc, 
---										 		 						Event_id
---						) as ranked_by_Event_id  
+--				ROW_NUMBER  () OVER (PARTITION BY Referral_id
+--										 		  ORDER BY Event_id, 
+--										 		  Event_id desc, 
+--										 		  Event_id
+--									) as ranked_by_Event_id  
 
 --		FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017
 --		)RankedCoreTable
@@ -89,30 +101,24 @@
 -- CHECKS
 ----------
 
---SELECT COUNT(DISTINCT(Referral_id))
 
---FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
---WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 = definition of 6 months)
+--SELECT COUNT(
 
--- query returns 0 patients, so meets the criteria
+--				DISTINCT(
 
---SELECT COUNT(DISTINCT(Referral_id))
+--						 Referral_id)
+
+--									 )
 
 --FROM  SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
 -- (232108 row(s) affected)
 
---SELECT COUNT(DISTINCT(ReferralBrcid))
+-- Do query without Distinct and it should come up with the same number of rows.
 
---FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
+-- it does!
+
 
 ------------------------------------------
--- MAKE A TABLE OF CORE TABLE 
---(Table name: SQLCRIS_User.dbo.CoreTable21092017, N = (232108 row(s) affected))
-
--- 232108 referrals; 142729 brcids
-
--- FINAL TABLE TO USE: SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
-
-
+-- TABLE TO USE FOR CORE COHORT: SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
