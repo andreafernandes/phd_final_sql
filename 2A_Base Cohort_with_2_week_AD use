@@ -1,0 +1,58 @@
+---------------------------------------------
+------3
+---------------------------------------------
+----Ranking Base Cohort 
+-- Because there are patients wiht multiple diagnoses within the 12 month period, 
+-- i need to select only one row. Otherwise the MULTIPLE dep diagnoses per referral will create multiple rows per diagnosis, per referral. We just want the latest diagnoses for -- each referral. 
+---------------------------------------------
+SELECT * 
+
+INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
+
+FROM 
+
+(
+
+
+
+							SELECT * 
+
+							FROM 
+
+							(
+
+
+																SELECT *,
+																		ROW_NUMBER  () 
+																												OVER (PARTITION BY 			Referral_id, 
+																																			generic_ad_name ORDER BY start_date, 
+ 																																			id desc, 
+ 																																			id
+																													 ) as ranked_medication_date
+																FROM
+
+																(
+
+																						SELECT *
+
+																						FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows as bc
+
+																						LEFT JOIN SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 as adtable
+
+																						ON bc.ReferralBrcid = adtable.brcid
+
+																						WHERE	(
+																								adtable.start_date <= (DATEADD(ww, 2, Referral_accepted_date)) AND
+																								adtable.start_date >   Referral_accepted_date
+																								)
+																)Table1
+
+							)Table2
+
+							WHERE ranked_medication_date = 1
+)Table3
+
+					
+					
+-- TABLE TO USE FOR BASE COHORT WITH FLAGS FOR WHETHER THEY USED AD WITHIN 2 WEEKS OF REFERRAL ACC DATE: 
+-- SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
