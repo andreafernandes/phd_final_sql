@@ -1,7 +1,9 @@
-
 SELECT * 
 
-INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
+--INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
+--INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_TO_3MONS
+--INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS_TO_6MONS
+INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR
 
 FROM 
 
@@ -36,8 +38,17 @@ FROM
 																						ON bc.ReferralBrcid = adtable.brcid
 
 																						WHERE	(
-																								adtable.start_date <= (DATEADD(ww, 2, Referral_accepted_date)) AND
-																								adtable.start_date >   Referral_accepted_date
+																						--		adtable.start_date <= (DATEADD(ww, 2, Referral_accepted_date)) AND
+																						--		adtable.start_date >   Referral_accepted_date
+																								
+																						--		adtable.start_date > (DATEADD(ww, 2, Referral_accepted_date)) AND
+																						--		adtable.start_date <=(DATEADD(ww, 13.036, Referral_accepted_date))
+																						
+																						--		adtable.start_date > (DATEADD(ww, 13.036, Referral_accepted_date)) AND
+																						--		adtable.start_date <=(DATEADD(ww, 26.07, Referral_accepted_date))		
+																								
+																								adtable.start_date > (DATEADD(ww, 26.07, Referral_accepted_date)) AND
+																								adtable.start_date <=(DATEADD(ww, 52.14, Referral_accepted_date))		
 																								)
 																)Table1
 
@@ -45,8 +56,8 @@ FROM
 
 							WHERE ranked_medication_date = 1
 )Table3
-
-					
+				
 					
 -- TABLE TO USE FOR BASE COHORT WITH FLAGS FOR WHETHER THEY USED AD WITHIN 2 WEEKS OF REFERRAL ACC DATE: 
 -- SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
+-- The query is also amended to take into account the different time frames. 
