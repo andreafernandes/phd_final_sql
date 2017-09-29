@@ -83,7 +83,7 @@ SELECT *
 --		SELECT *,
 --				ROW_NUMBER  () OVER (PARTITION BY Referral_id
 --										 		  ORDER BY Event_id, 
---										 		  Event_id desc, 
+--										 		  Event_id asc, 
 --										 		  Event_id
 --									) as ranked_by_Event_id  
 
