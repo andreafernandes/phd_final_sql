@@ -19,6 +19,7 @@ SELECT
 		  ReferralBrcid,
 		  BaseCohort.Referral_id,
 		  Event_id,
+		  Event_start_date,
 		  referral_accepted_date,
 		  referral_end_date,
 		  spell_number,
