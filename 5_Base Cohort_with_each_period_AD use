@@ -38,17 +38,17 @@ FROM
 																						ON bc.ReferralBrcid = adtable.brcid
 
 																						WHERE	(
-																						--		adtable.start_date <= (DATEADD(ww, 2, Referral_accepted_date)) AND
-																						--		adtable.start_date >   Referral_accepted_date
+																						--		adtable.start_date <= (DATEADD(ww, 2, Event_start_date)) AND
+																						--		adtable.start_date >   Event_start_date
 																								
-																						--		adtable.start_date > (DATEADD(ww, 2, Referral_accepted_date)) AND
-																						--		adtable.start_date <=(DATEADD(ww, 13.036, Referral_accepted_date))
+																						--		adtable.start_date > (DATEADD(ww, 2, Event_start_date)) AND
+																						--		adtable.start_date <=(DATEADD(ww, 13.036, Event_start_date))
 																						
-																						--		adtable.start_date > (DATEADD(ww, 13.036, Referral_accepted_date)) AND
-																						--		adtable.start_date <=(DATEADD(ww, 26.07, Referral_accepted_date))		
+																						--		adtable.start_date > (DATEADD(ww, 13.036, Event_start_date)) AND
+																						--		adtable.start_date <=(DATEADD(ww, 26.07, Event_start_date))		
 																								
-																								adtable.start_date > (DATEADD(ww, 26.07, Referral_accepted_date)) AND
-																								adtable.start_date <=(DATEADD(ww, 52.14, Referral_accepted_date))		
+																								adtable.start_date > (DATEADD(ww, 26.07, Event_start_date)) AND
+																								adtable.start_date <=(DATEADD(ww, 52.14, Event_start_date))		
 																								)
 																)Table1
 
