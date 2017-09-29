@@ -23,6 +23,7 @@ SELECT
 							Referral_end_date,
 							Referral_id,
 							Event_id,
+							Event_start_date,
 							spell_number,
 							SQLCrisImport.dbo.Diagnosis_combined.brcid as DiagnosisBrcid,
 							primary_diagnosis,
