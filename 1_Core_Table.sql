@@ -59,7 +59,7 @@ SELECT *
 
 --FROM SQLCRIS_User.dbo.Afernandes_CoreTable21092017_DistinctRows
 
---WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 = definition of 6 months)
+--WHERE DATEDIFF(DD, Referral_accepted_date, Event_start_date) > 183 --(183 days = definition of 6 months)
 
 -- query returns 0 patients, so meets the criteria
 ---------
