@@ -3,13 +3,13 @@
 -- THERE SHOULD BE 24 COLUMNS
 ---------
 
-
 SELECT *
 
 --INTO SQLCRIS_User.dbo.Afernandes_fc_2week
 --INTO SQLCRIS_User.dbo.Afernandes_fc_2week_to_3months
 --INTO SQLCRIS_User.dbo.Afernandes_fc_3mons_to_6mons
-INTO SQLCRIS_User.dbo.Afernandes_fc_6mons_to_1year
+--INTO SQLCRIS_User.dbo.Afernandes_fc_6mons_to_1year
+INTO SQLCRIS_User.dbo.Afernandes_fc_3mons
 
 FROM 
 
@@ -54,7 +54,7 @@ SELECT
 
 
 FROM
-		SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows as BaseCohort
+		SQLCRIS_User.dbo.Afernandes_BaseCohort06102017_FirstReferralsMeetingInclusionCriteria as BaseCohort
 		
 
 LEFT JOIN
@@ -64,7 +64,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'LITHIUM'								and 	ranked_medication_date = 1)
 													    
@@ -79,7 +79,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'MAOI_Phenelzine'						and 	ranked_medication_date = 1)
 													    
@@ -94,7 +94,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'MAOI_Tranylcypromine'						and 	ranked_medication_date = 1)
 													    
@@ -109,7 +109,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'REVERSEMAOI_Moclobemide'						and 	ranked_medication_date = 1)
 													    
@@ -125,7 +125,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_AMITRIPTYLINE'						and 	ranked_medication_date = 1)
 													    
@@ -142,7 +142,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Clomipramine'						and 	ranked_medication_date = 1)
 													    
@@ -159,7 +159,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Dosulepin'						and 	ranked_medication_date = 1)
 													    
@@ -174,7 +174,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Doxepin'						and 	ranked_medication_date = 1)
 													    
@@ -189,7 +189,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Imipramine'						and 	ranked_medication_date = 1)
 													    
@@ -204,7 +204,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Lofepramine'						and 	ranked_medication_date = 1)
 													    
@@ -219,7 +219,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCA_Nortriptylin'						and 	ranked_medication_date = 1)
 													    
@@ -234,7 +234,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'TCArelated_Trazodone'						and 	ranked_medication_date = 1)
 													    
@@ -248,7 +248,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SNRI_Duloxetin'						and 	ranked_medication_date = 1)
 													    
@@ -262,7 +262,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SNRI_Reboxetin'						and 	ranked_medication_date = 1)
 													    
@@ -276,7 +276,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'OTHERAD_Venlafaxine'						and 	ranked_medication_date = 1)
 													    
@@ -290,7 +290,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRI_Citalopram'						and 	ranked_medication_date = 1)
 													    
@@ -304,7 +304,7 @@ LEFT JOIN
 --																generic_ad_name,start_date,
 --																ranked_medication_date
 																
---											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+--											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 --											WHERE				(generic_ad_name like 'SSRI_Citalopram'						and 	ranked_medication_date = 1)
 													    
@@ -319,7 +319,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRI_Escitalopram'						and 	ranked_medication_date = 1)
 													    
@@ -335,7 +335,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRI_Fluoxetine'						and 	ranked_medication_date = 1)
 													    
@@ -349,7 +349,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRI_Fluvoxamine'						and 	ranked_medication_date = 1)
 													    
@@ -363,7 +363,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRI_Paroxetine'						and 	ranked_medication_date = 1)
 													    
@@ -377,7 +377,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'SSRIs_Sertraline'						and 	ranked_medication_date = 1)
 													    
@@ -391,7 +391,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'OTHERAD_Agomelatin'						and 	ranked_medication_date = 1)
 													    
@@ -405,7 +405,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'OTHERAD_Bupropion'						and 	ranked_medication_date = 1)
 													    
@@ -420,7 +420,7 @@ LEFT JOIN
 																generic_ad_name,start_date,
 																ranked_medication_date
 																
-											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR as AllMeds
+											FROM				SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS as AllMeds
 
 											WHERE				(generic_ad_name like 'OTHERAD_Mirtazapin'						and 	ranked_medication_date = 1)
 													    
@@ -428,7 +428,5 @@ LEFT JOIN
 											on BaseCohort.Referral_id = OTHERAD_Mirtazapin.Referral_id
 
 )Table1
-
-
 
 -- FINAL TABLE IS IN: SQLCRIS_User.dbo.Afernandes_fc_2week or similarly named other tables
