@@ -37,5 +37,5 @@ WHERE
 rankedreferral = 1 and spell_number = 1
 )TableA
 
--- (16046 row(s) affected)
+-- (16044 row(s) affected)
 -- First spells/referrals (patients being referred from outside of any SLAM services that meet the inclusion criteria - i.e. f2f within 6 months of referral date and dep diag within 12 months)
