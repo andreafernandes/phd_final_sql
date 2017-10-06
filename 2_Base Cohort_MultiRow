@@ -190,3 +190,4 @@ where (primary_diagnosis like '%depress%' and diagnosis_date > (DATEADD(mm, 12, 
 
 -------------------------------------------
 -- TABLE TO USE FOR BASE COHORT:   SQLCRIS_User.dbo.Afernandes_CC_innerjoin_DepressionCohort21092017
+-- (76536 row(s) affected)
