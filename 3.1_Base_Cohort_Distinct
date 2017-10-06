@@ -1,0 +1,43 @@
+
+------------------------------------------------------------------------------------------
+-- Pulling out the first referrals of patients who have met the criteria
+-- double check with Rob if we mean first referral as in coming from outside of SLAM
+-- or is it any referrals that meet the criteria
+------------------------------------------------------------------------------------------
+
+
+
+
+
+SELECT *
+
+INTO SQLCRIS_User.dbo.Afernandes_BaseCohort06102017_FirstReferralsMeetingInclusionCriteria
+
+FROM
+
+(
+
+SELECT *
+
+FROM
+
+(
+SELECT *, 
+
+ROW_NUMBER  () 
+					OVER (PARTITION BY 			ReferralBrcid
+		 										ORDER BY Referral_id, 
+		 		 								Referral_id asc, 
+		 		 								Referral_id
+) as rankedreferral
+
+FROM 
+SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows
+)TableA
+
+WHERE 
+
+rankedreferral = 1
+)TableA
+ 
+--(23750 row(s) affected)
