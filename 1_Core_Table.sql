@@ -45,7 +45,7 @@ SELECT *
 --											)
 --										) 
 --				) CoreCohort
-
+-- (1850787 row(s) affected)
 ---------
 -- CHECKS 
 
@@ -94,7 +94,7 @@ SELECT *
 
 --) CoreTableDisctintRows
 
-
+-- (232108 row(s) affected)
 
 
 ----------
