@@ -3,7 +3,8 @@ SELECT *
 --INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
 --INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_TO_3MONS
 --INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS_TO_6MONS
-INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR
+--INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_6MONS_TO_1YEAR
+INTO SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_3MONS
 
 FROM 
 
@@ -11,53 +12,57 @@ FROM
 
 
 
-							SELECT * 
+SELECT * 
 
-							FROM 
+FROM 
 
-							(
+(
 
 
-																SELECT *,
-																		ROW_NUMBER  () 
-																												OVER (PARTITION BY 			Referral_id, 
-																																			generic_ad_name ORDER BY start_date, 
- 																																			id desc, 
- 																																			id
-																													 ) as ranked_medication_date
-																FROM
+SELECT *,
+ROW_NUMBER  () 
+OVER (PARTITION BY 			Referral_id, 
+							generic_ad_name ORDER BY start_date, 
+							id desc, 
+							id
+	 ) as ranked_medication_date
+FROM
 
-																(
+(
 
-																						SELECT *
+SELECT *
 
-																						FROM SQLCRIS_User.dbo.Afernandes_BaseCohort21092017_DistinctRows as bc
+FROM SQLCRIS_User.dbo.Afernandes_BaseCohort06102017_FirstReferralsMeetingInclusionCriteria as bc
 
-																						LEFT JOIN SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 as adtable
+LEFT JOIN SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 as adtable
 
-																						ON bc.ReferralBrcid = adtable.brcid
+ON bc.ReferralBrcid = adtable.brcid
 
-																						WHERE	(
-																						--		adtable.start_date <= (DATEADD(ww, 2, Event_start_date)) AND
-																						--		adtable.start_date >   Event_start_date
-																								
-																						--		adtable.start_date > (DATEADD(ww, 2, Event_start_date)) AND
-																						--		adtable.start_date <=(DATEADD(ww, 13.036, Event_start_date))
-																						
-																						--		adtable.start_date > (DATEADD(ww, 13.036, Event_start_date)) AND
-																						--		adtable.start_date <=(DATEADD(ww, 26.07, Event_start_date))		
-																								
-																								adtable.start_date > (DATEADD(ww, 26.07, Event_start_date)) AND
-																								adtable.start_date <=(DATEADD(ww, 52.14, Event_start_date))		
-																								)
-																)Table1
+WHERE	(
+--		adtable.start_date <= (DATEADD(ww, 2, Event_start_date)) AND
+--		adtable.start_date >   Event_start_date
 
-							)Table2
+--		adtable.start_date > (DATEADD(ww, 2, Event_start_date)) AND
+--		adtable.start_date <=(DATEADD(ww, 13.036, Event_start_date))
 
-							WHERE ranked_medication_date = 1
+--		adtable.start_date > (DATEADD(ww, 13.036, Event_start_date)) AND
+--		adtable.start_date <=(DATEADD(ww, 26.07, Event_start_date))		
+
+--------adtable.start_date > (DATEADD(ww, 26.07, Event_start_date)) AND
+--------adtable.start_date <=(DATEADD(ww, 52.14, Event_start_date))	
+		
+		adtable.start_date <= (DATEADD(DD, 91.2, Event_start_date)) AND
+		adtable.start_date >   Event_start_date	
+		--(11809 row(s) affected)
+)
+)Table1
+
+)Table2
+
+WHERE ranked_medication_date = 1
 )Table3
-				
-					
+
+
 -- TABLE TO USE FOR BASE COHORT WITH FLAGS FOR WHETHER THEY USED AD WITHIN 2 WEEKS OF REFERRAL ACC DATE: 
 -- SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS
 -- The query is also amended to take into account the different time frames. 
