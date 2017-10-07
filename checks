@@ -1,0 +1,17 @@
+-- Checks
+
+--SELECT [ReferralBrcid]
+--      ,[Referral_id]
+--      ,[Event_id]
+--      ,[Event_start_date]
+--      ,[referral_accepted_date]
+--      ,[referral_end_date]
+--      ,[spell_number]
+--      ,[sixmonthsto1year_OA_Mirt]
+--  FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons]
+
+--where DATEDIFF(DD, [Event_start_date], [sixmonthsto1year_OA_Mirt]) < 91.2 
+--and [sixmonthsto1year_OA_Mirt] != '1900-01-01 00:00:00.000'
+
+-- this is within three months of each patients first f2f date
+-- forgot to change sixmonthsto1year to threemonths
