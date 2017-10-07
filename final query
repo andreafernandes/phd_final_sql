@@ -1,0 +1,93 @@
+
+
+SELECT [ReferralBrcid]
+      ,[Referral_id]
+      ,[Event_id]
+      ,[Event_start_date]
+      ,[referral_accepted_date]
+      ,[referral_end_date]
+      ,FC.[Spell_Number]
+      ,[primary_diagnosis]
+      ,[diagnosis_date]
+      ,[diagnosis_id]
+      ,[sixmonthsto1year_Lithium]
+      ,[sixmonthsto1year_MAOI_Phenelzine]
+      ,[sixmonthsto1year_MAOI_Tranylcypromine]
+      ,[sixmonthsto1year_MAOI_Moclobemide]
+      ,[sixmonthsto1year_TCA_Amit]
+      ,[sixmonthsto1year_TCA_Clomip]
+      ,[sixmonthsto1year_TCA_Dosul]
+      ,[sixmonthsto1year_TCA_Doxe]
+      ,[sixmonthsto1year_TCA_Imip]
+      ,[sixmonthsto1year_TCA_Lofe]
+      ,[sixmonthsto1year_SNRI_Nortrip]
+      ,[sixmonthsto1year_TCA_Trazo]
+      ,[sixmonthsto1year_SNRI_Dulox]
+      ,[sixmonthsto1year_SNRI_Rebox]
+      ,[sixmonthsto1year_SNRI_Venla]
+      ,[sixmonthsto1year_SSRI_Citalo]
+      ,[sixmonthsto1year_SSRI_Escit]
+      ,[sixmonthsto1year_SSRI_Fluox]
+      ,[sixmonthsto1year_SSRI_Fluvox]
+      ,[sixmonthsto1year_SSRI_Parox]
+      ,[sixmonthsto1year_SSRI_Sert]
+      ,[sixmonthsto1year_OA_Ago]
+      ,[sixmonthsto1year_OA_Bup]
+      ,[sixmonthsto1year_OA_Mirt]
+	  ,ethnicitycleaned
+	  ,Marital_Status_ID
+	  ,cleaneddateofbirth,
+		Lives_With_ID,
+		Employment_ID,
+		Religion_ID,
+		Ideation,
+		Document_Date,
+		iapt_brcid,
+		Session_Date, Therapy_type, Session_n
+		
+  
+FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] as FC
+
+---------Suicide ideation 
+LEFT JOIN
+
+SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017 as SI
+
+ON
+
+SI.BrcId =  FC.ReferralBrcid
+
+--select * from SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017
+---------Demographics
+
+LEFT JOIN
+
+SQLCRIS.dbo.EPR_Form as EF
+
+ON FC.ReferralBrcid = EF.BrcId
+  
+---------IAPT
+LEFT JOIN
+
+(
+
+SELECT				DISTINCT(iapt_brcid)
+
+FROM				dbo.Afernandes_fc_3mons_ia
+
+)TableIAPT
+
+ON FC.ReferralBrcid = TableIAPT.iapt_brcid
+
+
+--------IAPT
+LEFT JOIN
+
+SQLCRIS_User.dbo.Afernandes_CBT
+
+ON 
+
+SQLCRIS_User.dbo.Afernandes_CBT.CBTBRCID = FC.ReferralBrcid
+
+
+
