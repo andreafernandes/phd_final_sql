@@ -193,6 +193,43 @@ WHERE ranked_si = 1
 
 
 
+SELECT * INTO SQLCRIS_User.dbo.Afernandes_ADDRESS
+
+
+FROM 
+(
+
+
+SELECT *, 
+
+ ROW_NUMBER  () 
+OVER (PARTITION BY 			ReferralBrcid
+							ORDER BY DIFF, 
+							DIFF, 
+							DIFF
+) as ranked_address 
+
+
+FROM
+
+(
+SELECT ReferralBrcid, LSOA11, Start_Date as addressstartdate, CN_Doc_ID as addcndocid, BrcId as addbrcid 
+,ABS(DATEDIFF(DD, Referral_accepted_date, Start_Date)) as DIFF
+
+FROM  SQLCRIS_User.dbo.Afernandes_FC10102017 AS FC
+
+LEFT JOIN
+
+SQLCRIS.dbo.Address AS ADDRESS
+
+ON ADDRESS.BrcId = FC.ReferralBrcid
+)TableB
+
+)TableC
+
+where ranked_address = 1
+
+
 
 
 
