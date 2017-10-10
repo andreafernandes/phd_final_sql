@@ -68,6 +68,131 @@ WHERE ranked_cbt =  1
 
 
 
+---------Suicide ideation 
+LEFT JOIN
+
+SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017 as SI
+
+ON
+
+SI.BrcId =  FC.ReferralBrcid
+
+--select * from SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017
+
+
+
+
+
+--------------------
+SELECT * INTO
+
+SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017
+
+FROM
+
+(
+
+SELECT *
+
+FROM 
+
+(
+SELECT *,
+ ROW_NUMBER  () 
+OVER (PARTITION BY 			ReferralBrcid
+							ORDER BY annotation_start, 
+							annotation_start desc, 
+							annotation_start
+) as ranked_si 
+
+FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] AS FC
+
+LEFT JOIN  [GateDB_Cris].dbo.gate_ideation_test_andrea AS IDEATION
+
+ON IDEATION.BrcId = FC.ReferralBrcid
+
+WHERE 
+
+DATEDIFF(D,CONVERT(datetime,Document_Date,103),Event_start_date) <= 91.2
+AND (CONVERT(datetime,Document_Date,103)) > referral_accepted_date
+
+)TableA
+
+WHERE ranked_si = 1
+  
+)TableB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------IAPT
+
+--SELECT * 
+
+--INTO SQLCRIS_User.dbo.Afernandes_CBT
+
+--FROM 
+
+--(
+
+
+--SELECT * FROM 
+
+--(
+--SELECT Event_start_date, Event_id, Session_date, CBT.Session_n,CBT.Therapy_type, CN_DOC_ID as CBT_cndocid, ReferralBrcid,
+--ROW_NUMBER  () 
+--OVER (PARTITION BY 			ReferralBrcid
+--							ORDER BY CN_DOC_ID, 
+--							CN_DOC_ID desc, 
+--							CN_DOC_ID
+--) as ranked_cbt 
+
+--FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] as FC
+
+--LEFT JOIN
+
+--SQLCRISIMPORT.dbo.tbl_cbt_combined_current as CBT
+
+--ON CBT.BRCID = FC.ReferralBrcid
+
+--WHERE DATEDIFF(D, Session_date, Event_start_date) <= 91.2
+--)TableB
+
+--WHERE ranked_cbt =  1
+
+--)TableCBT
+
+--ON 
+
+--SQLCRIS_User.dbo.Afernandes_CBT.CBTBRCID = FC.ReferralBrcid
+
+
+
+
+
+
+
+
+
 
 
 
