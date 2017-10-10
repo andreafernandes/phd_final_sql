@@ -235,3 +235,52 @@ where ranked_address = 1
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(
+SELECT * FROM SQLCRIS_User.dbo.Afernandes_ADDRESS AS FCaddress
+
+left join 
+
+SQLCRISImport.dbo.ons_2011_imd
+
+on 
+SQLCRISImport.dbo.ons_2011_imd.LSOA11CD = FCaddress.LSOA11
+)
+
+
+
+
+select * from dbo.Afernandes_FC10102017
+
+left join
+
+(
+SELECT * FROM SQLCRIS_User.dbo.Afernandes_ADDRESS AS FCaddress
+
+left join 
+
+SQLCRISImport.dbo.ons_2011_imd
+
+on 
+SQLCRISImport.dbo.ons_2011_imd.LSOA11CD = FCaddress.LSOA11
+)TableAddress
+
+
+on TableAddress.R
+
+
+
