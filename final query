@@ -1,41 +1,49 @@
 
+SELECT * 
 
-SELECT [ReferralBrcid]
-      ,[Referral_id]
-      ,[Event_id]
-      ,[Event_start_date]
-      ,[referral_accepted_date]
-      ,[referral_end_date]
+INTO SQLCRIS_User.dbo.Afernandes_FC10102017
+
+FROM
+
+(
+
+SELECT FC.ReferralBrcid,
+	   FC.[Referral_id]
+      ,FC.[Event_id]
+      ,FC.[Event_start_date]
+      ,FC.[referral_accepted_date]
+      ,FC.[referral_end_date]
       ,FC.[Spell_Number]
-      ,[primary_diagnosis]
-      ,[diagnosis_date]
-      ,[diagnosis_id]
-      ,[sixmonthsto1year_Lithium]
-      ,[sixmonthsto1year_MAOI_Phenelzine]
-      ,[sixmonthsto1year_MAOI_Tranylcypromine]
-      ,[sixmonthsto1year_MAOI_Moclobemide]
-      ,[sixmonthsto1year_TCA_Amit]
-      ,[sixmonthsto1year_TCA_Clomip]
-      ,[sixmonthsto1year_TCA_Dosul]
-      ,[sixmonthsto1year_TCA_Doxe]
-      ,[sixmonthsto1year_TCA_Imip]
-      ,[sixmonthsto1year_TCA_Lofe]
-      ,[sixmonthsto1year_SNRI_Nortrip]
-      ,[sixmonthsto1year_TCA_Trazo]
-      ,[sixmonthsto1year_SNRI_Dulox]
-      ,[sixmonthsto1year_SNRI_Rebox]
-      ,[sixmonthsto1year_SNRI_Venla]
-      ,[sixmonthsto1year_SSRI_Citalo]
-      ,[sixmonthsto1year_SSRI_Escit]
-      ,[sixmonthsto1year_SSRI_Fluox]
-      ,[sixmonthsto1year_SSRI_Fluvox]
-      ,[sixmonthsto1year_SSRI_Parox]
-      ,[sixmonthsto1year_SSRI_Sert]
-      ,[sixmonthsto1year_OA_Ago]
-      ,[sixmonthsto1year_OA_Bup]
-      ,[sixmonthsto1year_OA_Mirt]
+      ,FC.[primary_diagnosis]
+      ,FC.[diagnosis_date]
+      ,FC.[diagnosis_id]
+      ,FC.[sixmonthsto1year_Lithium]
+      ,FC.[sixmonthsto1year_MAOI_Phenelzine]
+      ,FC.[sixmonthsto1year_MAOI_Tranylcypromine]
+      ,FC.[sixmonthsto1year_MAOI_Moclobemide]
+      ,FC.[sixmonthsto1year_TCA_Amit]
+      ,FC.[sixmonthsto1year_TCA_Clomip]
+      ,FC.[sixmonthsto1year_TCA_Dosul]
+      ,FC.[sixmonthsto1year_TCA_Doxe]
+      ,FC.[sixmonthsto1year_TCA_Imip]
+      ,FC.[sixmonthsto1year_TCA_Lofe]
+      ,FC.[sixmonthsto1year_SNRI_Nortrip]
+      ,FC.[sixmonthsto1year_TCA_Trazo]
+      ,FC.[sixmonthsto1year_SNRI_Dulox]
+      ,FC.[sixmonthsto1year_SNRI_Rebox]
+      ,FC.[sixmonthsto1year_SNRI_Venla]
+      ,FC.[sixmonthsto1year_SSRI_Citalo]
+      ,FC.[sixmonthsto1year_SSRI_Escit]
+      ,FC.[sixmonthsto1year_SSRI_Fluox]
+      ,FC.[sixmonthsto1year_SSRI_Fluvox]
+      ,FC.[sixmonthsto1year_SSRI_Parox]
+      ,FC.[sixmonthsto1year_SSRI_Sert]
+      ,FC.[sixmonthsto1year_OA_Ago]
+      ,FC.[sixmonthsto1year_OA_Bup]
+      ,FC.[sixmonthsto1year_OA_Mirt]
 	  ,ethnicitycleaned
 	  ,Marital_Status_ID
+	  ,Gender_ID
 	  ,cleaneddateofbirth,
 		Lives_With_ID,
 		Employment_ID,
@@ -48,16 +56,7 @@ SELECT [ReferralBrcid]
   
 FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] as FC
 
----------Suicide ideation 
-LEFT JOIN
 
-SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017 as SI
-
-ON
-
-SI.BrcId =  FC.ReferralBrcid
-
---select * from SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017
 ---------Demographics
 
 LEFT JOIN
@@ -65,7 +64,7 @@ LEFT JOIN
 SQLCRIS.dbo.EPR_Form as EF
 
 ON FC.ReferralBrcid = EF.BrcId
-  
+
 ---------IAPT
 LEFT JOIN
 
@@ -80,14 +79,21 @@ FROM				dbo.Afernandes_fc_3mons_ia
 ON FC.ReferralBrcid = TableIAPT.iapt_brcid
 
 
---------IAPT
+--------CBT
+
+LEFT JOIN
+-- select * from 
+SQLCRIS_User.dbo.Afernandes_CBT as CBT
+
+ON FC.ReferralBrcid = CBT.ReferralBrcid
+
+--------Suicide Ideation
+
 LEFT JOIN
 
-SQLCRIS_User.dbo.Afernandes_CBT
+SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017 as SI
 
-ON 
+ON FC.ReferralBrcid = SI.BrcId
 
-SQLCRIS_User.dbo.Afernandes_CBT.CBTBRCID = FC.ReferralBrcid
-
-
+)TableA
 
