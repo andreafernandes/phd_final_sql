@@ -193,43 +193,48 @@ WHERE ranked_si = 1
 
 
 
-
-
 SELECT * INTO SQLCRIS_User.dbo.Afernandes_ADDRESS
 
+FROM 
+
+(
+
+
+SELECT LSOA11,ReferralBrcid, ranked_address, datedifference
 
 FROM 
+
 (
 
-
-SELECT *, 
-
- ROW_NUMBER  () 
+SELECT *,
+(ROW_NUMBER  () 
 OVER (PARTITION BY 			ReferralBrcid
-							ORDER BY DIFF, 
-							DIFF, 
-							DIFF
-) as ranked_address 
-
-
-FROM
+							ORDER BY datedifference, 
+							TableA.CN_DOC_ID desc, 
+							TableA.CN_DOC_ID)) AS ranked_address
+							
+							
+FROM 
 
 (
-SELECT ReferralBrcid, LSOA11, Start_Date as addressstartdate, CN_Doc_ID as addcndocid, BrcId as addbrcid 
-,ABS(DATEDIFF(DD, Referral_accepted_date, Start_Date)) as DIFF
 
-FROM  SQLCRIS_User.dbo.Afernandes_FC10102017 AS FC
+SELECT ReferralBrcid, Address.CN_DOC_ID, FC.Spell_Number, address.[LSOA11],
+ABS(DATEDIFF(D, Start_date, referral_accepted_date)) as datedifference
 
-LEFT JOIN
 
-SQLCRIS.dbo.Address AS ADDRESS
+FROM SQLCRIS_User.dbo.Afernandes_FC12102017 AS FC
 
-ON ADDRESS.BrcId = FC.ReferralBrcid
+LEFT JOIN 
+
+SQLCRIS.dbo.Address
+
+ON Address.BrcId = FC.ReferralBrcid
+)TableA
 )TableB
 
-)TableC
-
 where ranked_address = 1
+
+)TableC
 
 
 
@@ -286,3 +291,34 @@ on TableAddress.R
 
 
 
+
+
+
+
+SELECT * INTO dbo.Afernandes_FC12102017_WITHLSOA
+
+FROM 
+
+(
+
+
+select * from dbo.Afernandes_FC12102017 AS FC
+
+left join
+
+(
+SELECT ReferralBrcid as refbrcid, ranked_address,datedifference,LSOA11,[IMD 2010 adjusted] FROM SQLCRIS_User.dbo.Afernandes_ADDRESS AS FCaddress
+
+left join 
+
+SQLCRISImport.dbo.ons_2011_imd
+
+on 
+SQLCRISImport.dbo.ons_2011_imd.LSOA11CD = FCaddress.LSOA11
+)TableAddress
+
+
+on TableAddress.refbrcid = FC.ReferralBrcid
+
+
+)TableA
