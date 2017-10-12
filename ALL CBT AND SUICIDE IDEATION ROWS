@@ -1,0 +1,29 @@
+SELECT * 
+
+FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] as FC
+
+LEFT JOIN
+
+SQLCRISIMPORT.dbo.tbl_cbt_combined_current as CBT
+
+ON CBT.BRCID = FC.ReferralBrcid
+
+WHERE DATEDIFF(D, Session_date, Event_start_date) <= 91.2
+
+
+
+
+
+SELECT *
+
+FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] AS FC
+
+LEFT JOIN  [GateDB_Cris].dbo.gate_ideation_test_andrea AS IDEATION
+
+ON IDEATION.BrcId = FC.ReferralBrcid
+
+WHERE 
+
+DATEDIFF(D,CONVERT(datetime,Document_Date,103),Event_start_date) <= 91.2
+AND (CONVERT(datetime,Document_Date,103)) > Event_start_date AND
+ideation = 'Positve'
