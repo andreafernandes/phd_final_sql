@@ -22,7 +22,6 @@
 
 
 
-
 SELECT * 
 
 INTO SQLCRIS_User.dbo.Afernandes_CBT
@@ -30,18 +29,20 @@ INTO SQLCRIS_User.dbo.Afernandes_CBT
 FROM 
 
 (
-
-
 SELECT * FROM 
-
 (
-SELECT Event_start_date, Event_id, Session_date, CBT.Session_n,CBT.Therapy_type, CN_DOC_ID as CBT_cndocid, ReferralBrcid,
-ROW_NUMBER  () 
+
+SELECT *,(ROW_NUMBER  () 
 OVER (PARTITION BY 			ReferralBrcid
 							ORDER BY CN_DOC_ID, 
 							CN_DOC_ID desc, 
-							CN_DOC_ID
-) as ranked_cbt 
+							CN_DOC_ID)) AS ranked_cbt 
+
+FROM 
+
+
+(
+SELECT * 
 
 FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] as FC
 
@@ -53,13 +54,12 @@ ON CBT.BRCID = FC.ReferralBrcid
 
 WHERE DATEDIFF(D, Session_date, Event_start_date) <= 91.2
 )TableB
+)TableC
+
 
 WHERE ranked_cbt =  1
 
 )TableCBT
-
-
-
 
 
 
@@ -91,19 +91,22 @@ SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017
 FROM
 
 (
+SELECT * FROM 
 
-SELECT *
-
-FROM 
 
 (
+
 SELECT *,
  ROW_NUMBER  () 
 OVER (PARTITION BY 			ReferralBrcid
 							ORDER BY annotation_start, 
 							annotation_start desc, 
-							annotation_start
-) as ranked_si 
+							annotation_start) as ranked_si 
+
+FROM 
+
+(
+SELECT *
 
 FROM [SQLCRIS_User].[dbo].[Afernandes_fc_3mons] AS FC
 
@@ -114,16 +117,15 @@ ON IDEATION.BrcId = FC.ReferralBrcid
 WHERE 
 
 DATEDIFF(D,CONVERT(datetime,Document_Date,103),Event_start_date) <= 91.2
-AND (CONVERT(datetime,Document_Date,103)) > referral_accepted_date
+AND (CONVERT(datetime,Document_Date,103)) > referral_accepted_date AND
+ideation = 'Positve'
 
 )TableA
+)TableB
 
 WHERE ranked_si = 1
   
-)TableB
-
-
-
+)TableC
 
 
 
