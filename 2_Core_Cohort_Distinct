@@ -6,6 +6,10 @@
 -- Rob has viewed the document and I think we are fine with the 16K referrals. 
 -- There is an easier way to do this by just taking the CoreCohort table and selecting
 -- spell number 1.
+-- I did it this way because i had to investigate why the unique referrals were not hte original 
+-- 23K i thought it would be. It turned out that that those 23K while meeting my inclusion criteria
+-- were not all 1st spells. So I had to select first spells...which resulted in teh following code. 
+-- As i say it could have been done easier. 
 ------------------------------------------------------------------------------------------
 
 
