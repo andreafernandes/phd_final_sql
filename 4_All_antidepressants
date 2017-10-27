@@ -263,4 +263,4 @@ SELECT *
 																 
 --																 )medication_ad
 -------------------------------------------
--- TABLE TO USE FOR A MEDICATION WITH ONLY ANTIDEPRESSANTS IN IT: SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017
+-- TABLE TO USE FOR A MEDICATION WITH ONLY ANTIDEPRESSANTS IN IT: SQLCRIS_User.dbo.Afernandes_medication_antidepressant_15092017 
