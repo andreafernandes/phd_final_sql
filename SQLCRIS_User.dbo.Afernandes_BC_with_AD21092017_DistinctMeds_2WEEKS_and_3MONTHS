@@ -47,7 +47,6 @@ FROM
 
 							WHERE ranked_medication_date = 1
 )Table3
-
 					
 					
 -- Table to use:SQLCRIS_User.dbo.Afernandes_BC_with_AD21092017_DistinctMeds_2WEEKS_and_3MONTHS
