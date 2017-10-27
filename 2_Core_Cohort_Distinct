@@ -3,6 +3,9 @@
 -- Pulling out the first referrals of patients who have met the criteria
 -- double check with Rob if we mean first referral as in coming from outside of SLAM
 -- or is it any referrals that meet the criteria
+-- Rob has viewed the document and I think we are fine with the 16K referrals. 
+-- There is an easier way to do this by just taking the CoreCohort table and selecting
+-- spell number 1.
 ------------------------------------------------------------------------------------------
 
 
