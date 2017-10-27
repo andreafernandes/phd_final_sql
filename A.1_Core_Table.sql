@@ -46,4 +46,4 @@ SELECT *
 --										) 
 --				) CoreCohort
 -- (1850787 row(s) affected)
--- Table name for above query: SQLCRIS_User.dbo.Afernandes_CoreTable21092017
+-- Table name for above query: SQLCRIS_User.dbo.Afernandes_CoreTable21092017 
