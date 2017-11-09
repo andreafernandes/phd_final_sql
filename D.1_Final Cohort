@@ -1,6 +1,8 @@
 ---------
 -- THIS TABLE WILL HAVE ONE COLUMN PER ANTIDEPRESSANT FOR EACH PATIENT IN BASE COHORT.
 -- THERE SHOULD BE 24 COLUMNS
+-- THE column headings: for example, 'sixmonthsto1year_SSRI_Fluox' are a mistake and 
+-- actually indicate 'threemonths_SSRI_Fluox'
 ---------
 
 SELECT *
