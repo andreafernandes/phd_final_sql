@@ -1,0 +1,10 @@
+A.1
+
+This query selects all instances of referral accepted dates between Jan 08 to Dec 16 and filters through 
+all instances that are face to face contacts, whose dates are within 6 months of the referall accepted dates and 
+where the face to face contact date comes after the accepted date. 
+
+AF assessed the query - this query is fine. 
+
+
+A.2 
