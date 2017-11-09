@@ -1,4 +1,9 @@
--- This query  two query use the core table to rank and then select only first spells
+-- This query  two query use the core table to rank and then select only first spells.
+-- But next Thursday do the following query
+-- select * from SQLCRIS_User.dbo.Afernandes_CoreTable21092017 where spell_number = 1
+-- should come up with 232,108
+
+
 --(
 
 --SELECT *
