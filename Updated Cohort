@@ -1,0 +1,53 @@
+select *
+
+,ethnicitycleaned
+	  ,Marital_Status_ID
+	  ,Gender_ID
+	  ,cleaneddateofbirth,
+		Lives_With_ID,
+		Employment_ID,
+		Religion_ID,
+		Ideation,
+		Document_Date,
+		iapt_brcid,
+		Session_Date, Therapy_type, Session_n 
+
+from  Afernandes_actual_Table3 
+
+---------Demographics
+
+LEFT JOIN
+
+SQLCRIS.dbo.EPR_Form as EF
+
+ON Afernandes_actual_Table3.ReferralBrcid = EF.BrcId
+
+---------IAPT
+LEFT JOIN
+
+(
+
+SELECT				DISTINCT(iapt_brcid)
+
+FROM				dbo.Afernandes_fc_3mons_ia
+
+)TableIAPT
+
+ON Afernandes_actual_Table3.ReferralBrcid = TableIAPT.iapt_brcid
+
+
+--------CBT
+
+LEFT JOIN
+-- select * from 
+SQLCRIS_User.dbo.Afernandes_CBT as CBT
+
+ON Afernandes_actual_Table3.ReferralBrcid = CBT.ReferralBrcid
+
+--------Suicide Ideation
+
+LEFT JOIN
+
+SQLCRIS_User.dbo.Afernandes_SI_for_FC07102017 as SI
+
+ON Afernandes_actual_Table3.ReferralBrcid = SI.BrcId
